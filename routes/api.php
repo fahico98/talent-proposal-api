@@ -21,3 +21,8 @@ Route::group(["prefix" => "auth", "namespace" => "Auth"], function(){
    Route::get("me", "AuthController@me");
 
 });
+
+Route::group(["prefix" => "user"], function(){
+   Route::get("username_exists/{username}", "UserController@usernameExists");
+   Route::get("email_exists/{email}", "UserController@emailExists");
+});

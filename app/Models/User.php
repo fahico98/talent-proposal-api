@@ -22,9 +22,7 @@ class User extends Authenticatable implements JWTSubject{
       "username",
       "name",
       "lastname",
-      "country",
-      "city",
-      "phone_number",
+      "birthday",
       "email",
       "password",
       "biography"
@@ -53,6 +51,15 @@ class User extends Authenticatable implements JWTSubject{
    protected $casts = [
       'email_verified_at' => 'datetime',
    ];
+
+   /**
+    * Get the route key for the model.
+    *
+    * @return string
+    */
+   public function getRouteKeyName(){
+      return 'username';
+   }
 
    /**
     * Get the identifier that will be stored in the subject claim of the JWT.

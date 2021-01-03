@@ -18,11 +18,8 @@ class CreateUsersTable extends Migration{
          $table->string("firstname", 35);
          $table->string("lastname", 35);
          $table->string("gender")->nullable();
-         $table->string("country", 35)->nullable();
-         $table->string("city", 35)->nullable();
-         $table->string("phone_number", 35)->nullable();
-         $table->string("email", 35)->unique();
          $table->date("birthday")->nullable();
+         $table->string("email", 35)->unique();
          $table->string('biography', 120)->nullable();
          $table->string("password", 255);
          $table->bigInteger("profile_picture_id")->unsigned()->default(1);
