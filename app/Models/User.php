@@ -20,12 +20,12 @@ class User extends Authenticatable implements JWTSubject{
       "profile_picture_id",
       "role_id",
       "username",
-      "name",
+      "firstname",
       "lastname",
       "birthday",
+      "gender",
       "email",
-      "password",
-      "biography"
+      "password"
    ];
 
    /**
@@ -42,6 +42,13 @@ class User extends Authenticatable implements JWTSubject{
       "created_at",
       "updated_at"
    ];
+
+   /**
+    * The relationships that should always be loaded.
+    *
+    * @var array
+    */
+    protected $with = ["role", "profile_picture"];
 
    /**
     * The attributes that should be cast to native types.

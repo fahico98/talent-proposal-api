@@ -28,7 +28,7 @@ class AuthController extends Controller{
       $token = auth()->attempt($credentials);
 
       if(!$token){
-         return response()->json(['error' => 'Unauthorized'], 401);
+         return response()->json(['error' => 'Unauthorized', 'status' => 401]);
       }
 
       return $this->respondWithToken($token);
@@ -40,7 +40,7 @@ class AuthController extends Controller{
     * @return \Illuminate\Http\JsonResponse
     */
    public function me(){
-      $user = Auth::user()->load("role", "profile_picture");
+      $user = Auth::user();
       return response()->json($user);
    }
 

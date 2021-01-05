@@ -20,6 +20,8 @@ Route::group(["prefix" => "auth", "namespace" => "Auth"], function(){
 
    Route::get("me", "AuthController@me");
 
+   Route::post("create", "RegisterController@create");
+
 });
 
 Route::group(["prefix" => "user"], function(){
