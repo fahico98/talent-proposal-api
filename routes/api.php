@@ -21,10 +21,13 @@ Route::group(["prefix" => "auth", "namespace" => "Auth"], function(){
    Route::get("me", "AuthController@me");
 
    Route::post("create", "RegisterController@create");
-
 });
 
 Route::group(["prefix" => "user"], function(){
    Route::get("username_exists/{username}", "UserController@usernameExists");
    Route::get("email_exists/{email}", "UserController@emailExists");
+});
+
+Route::group(["prefix" => "provider"], function(){
+   Route::get("/{page}/{parameter?}/{value?}", "ProviderController@index");
 });

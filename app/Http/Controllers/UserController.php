@@ -25,5 +25,4 @@ class UserController extends Controller{
    public function emailExists($email){
       return $email == "" ? response()->json(false) : response()->json(User::where("email", $email)->exists());
    }
-
 }

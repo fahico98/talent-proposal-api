@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use Carbon\Carbon;
 
 class UserSeeder extends Seeder{
 
@@ -18,7 +19,9 @@ class UserSeeder extends Seeder{
          "gender" => "masculino",
          "email" => "fahico98@gmail.com",
          "password" => Hash::make("mecatronica1992"),
-         "role_id" => 3
+         "role_id" => 3,
+         "created_at" => Carbon::now(),
+         "updated_at" => Carbon::now()
       ]);
 
       DB::table('users')->insert([
@@ -28,7 +31,9 @@ class UserSeeder extends Seeder{
          "gender" => "masculino",
          "email" => "facarcamoca@unal.edu.co",
          "password" => Hash::make("mecatronica1992"),
-         "role_id" => 2
+         "role_id" => 2,
+         "created_at" => Carbon::now(),
+         "updated_at" => Carbon::now()
       ]);
 
       DB::table('users')->insert([
@@ -37,7 +42,9 @@ class UserSeeder extends Seeder{
          "lastname" => "Cardozo",
          "gender" => "masculino",
          "email" => "jjcardozo155@hotmail.com",
-         "password" => Hash::make("legado2019")
+         "password" => Hash::make("legado2019"),
+         "created_at" => Carbon::now(),
+         "updated_at" => Carbon::now()
       ]);
 
       DB::table('users')->insert([
@@ -46,7 +53,9 @@ class UserSeeder extends Seeder{
          "lastname" => "Medrano",
          "gender" => "masculino",
          "email" => "dani_medra_123@outlook.com",
-         "password" => Hash::make("legado2019")
+         "password" => Hash::make("legado2019"),
+         "created_at" => Carbon::now(),
+         "updated_at" => Carbon::now()
       ]);
 
       DB::table('users')->insert([
@@ -55,7 +64,9 @@ class UserSeeder extends Seeder{
          "lastname" => "Gutierrez",
          "gender" => "masculino",
          "email" => "cagutierrez09@gmail.com",
-         "password" => Hash::make("legado2019")
+         "password" => Hash::make("legado2019"),
+         "created_at" => Carbon::now(),
+         "updated_at" => Carbon::now()
       ]);
 
       DB::table('users')->insert([
@@ -64,7 +75,9 @@ class UserSeeder extends Seeder{
          "lastname" => "Sarate",
          "gender" => "femenino",
          "email" => "avejita2019@hotmail.com",
-         "password" => Hash::make("legado2019")
+         "password" => Hash::make("legado2019"),
+         "created_at" => Carbon::now(),
+         "updated_at" => Carbon::now()
       ]);
 
       DB::table('users')->insert([
@@ -73,7 +86,9 @@ class UserSeeder extends Seeder{
          "lastname" => "Corzo",
          "gender" => "femenino",
          "email" => "danicorzo1996@gmail.com",
-         "password" => Hash::make("legado2019")
+         "password" => Hash::make("legado2019"),
+         "created_at" => Carbon::now(),
+         "updated_at" => Carbon::now()
       ]);
    }
 }
