@@ -29,5 +29,5 @@ Route::group(["prefix" => "user"], function(){
 });
 
 Route::group(["prefix" => "provider"], function(){
-   Route::get("/{page}/{parameter?}/{value?}", "ProviderController@index");
+   Route::get("/{page}/{column?}/{value?}", "ProviderController@index");
 });

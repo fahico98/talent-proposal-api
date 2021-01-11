@@ -24,6 +24,8 @@ class ProviderController extends Controller{
     */
    public function index($page, $column = null, $value = null){
 
+      $providers = null;
+
       if(is_null($column) || is_null($value)){
 
          $providers = Provider::orderBy("created_at", "desc")
@@ -31,8 +33,14 @@ class ProviderController extends Controller{
             ->limit(Provider::PER_PAGE)
             ->get();
 
+      }else if(($column == "country" || $column == "city" || $column == "name") && !is_null($value)){
+         $providers = Provider::filteredByString($page, $column, $value)->get();
+
       }else{
-         $providers = Provider::filteredByColumn($page, $column, $value)->get();
+         if(!is_null($value)){
+            $inequality = ($column == "min_general_score") ? ">=" : "<=";
+            $providers = Provider::filteredByFloat($page, $value, $inequality)->get();
+         }
       }
 
       return response()->json($providers);
