@@ -20,6 +20,7 @@ class CreateProvidersTable extends Migration{
          $table->string("address")->nullable();
          $table->string("phone_number")->nullable();
          $table->string("email")->unique()->nullable();
+         $table->text("description")->nullable();
          $table->integer("review_count")->default(0);
          $table->float("general_score", 3, 2)->nullable();
          $table->softDeletes();
