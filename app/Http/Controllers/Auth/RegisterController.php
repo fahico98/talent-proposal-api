@@ -5,8 +5,10 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Http\Request;
 
 use App\Models\User;
 
@@ -72,8 +74,25 @@ class RegisterController extends Controller{
       if($validated->fails()) {
          return response()->json(["errors" => $validated->errors(), "status" => 422]);
       }else{
+
          $requestData["password"] = Hash::make($requestData["password"]);
-         return response()->json(["user" => User::create($requestData), "status" => 201]);
+         $user = User::create($requestData);
+
+         $credentials = request(["username", "password"]);
+         $token = auth()->attempt($credentials);
+
+         return $this->respondWithToken($token);
       }
+   }
+
+   /**
+    * Get the token array structure.
+    *
+    * @param  string $token
+    *
+    * @return \Illuminate\Http\JsonResponse
+    */
+   protected function respondWithToken($token){
+      return response()->json(["token" => $token]);
    }
 }

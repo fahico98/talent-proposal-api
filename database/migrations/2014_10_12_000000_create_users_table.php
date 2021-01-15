@@ -21,7 +21,6 @@ class CreateUsersTable extends Migration{
          $table->date("birthday")->nullable();
          $table->string("email")->unique();
          $table->string("password", 255);
-         $table->bigInteger("profile_picture_id")->unsigned()->default(1);
          $table->bigInteger("role_id")->unsigned()->default(1);
          $table->timestamp("email_verified_at")->nullable();
          $table->rememberToken();

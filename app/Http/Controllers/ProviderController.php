@@ -45,4 +45,13 @@ class ProviderController extends Controller{
 
       return response()->json($providers);
    }
+
+   /**
+    * Checks if email exists.
+    *
+    * @return \Illuminate\Http\JsonResponse
+    */
+   public function emailExists($email){
+      return $email == "" ? response()->json(false) : response()->json(Provider::where("email", $email)->exists());
+   }
 }

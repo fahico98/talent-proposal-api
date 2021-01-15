@@ -9,6 +9,14 @@ use App\Models\User;
 class UserController extends Controller{
 
    /**
+    * Display a listing of all Users.s
+    *
+    */
+   public function index(){
+      return response()->json(User::all());
+   }
+
+   /**
     * Checks if username exists.
     *
     * @return \Illuminate\Http\JsonResponse
