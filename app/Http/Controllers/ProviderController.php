@@ -3,13 +3,15 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 
 use App\Models\Provider;
 
 class ProviderController extends Controller{
 
    /**
-    * Create a new AuthController instance.
+    * Create a new ProviderController instance.
     *
     * @return void
     */
@@ -53,5 +55,50 @@ class ProviderController extends Controller{
     */
    public function emailExists($email){
       return $email == "" ? response()->json(false) : response()->json(Provider::where("email", $email)->exists());
+   }
+
+   /**
+    * Create a new provider with the request data.
+    *
+    * @return \Illuminate\Http\Response
+    */
+   public function create(){
+
+      $selectedFeatures = request()->input("selectedFeatures");
+      $providerData = request()->input("form");
+      $validated = $this->validator($providerData);
+
+      if($validated->fails()) {
+         return response()->json(["errors" => $validated->errors(), "status" => 422]);
+      }else{
+
+         $provider = Provider::create($providerData);
+
+         foreach($selectedFeatures as $feature){
+            DB::table("feature_provider")->insert(
+               ["feature_id" => $feature["id"], "provider_id" => $provider["id"]]
+            );
+         }
+
+         return response()->json($provider);
+      }
+   }
+
+   /**
+    * Get a validator for an incoming registration request.
+    *
+    * @param  array  $data
+    * @return \Illuminate\Contracts\Validation\Validator
+    */
+   protected function validator(array $data){
+      return Validator::make($data, [
+         "name" => ["required", "string", "max:80"],
+         "country" => ["required", "string", "max:50"],
+         "city" => ["required", "string", "max:100"],
+         "address" => ["required", "string", "max:80"],
+         "phone_number" => ["required", "numeric", "min:1e3", "max:1e19"],
+         "email" => ["required", "email", "max:35", "unique:providers"],
+         "description" => ["string", "nullable", "max:1000"]
+      ]);
    }
 }

@@ -7,10 +7,27 @@ use Illuminate\Database\Eloquent\Model;
 class Provider extends Model{
 
    /**
+    * The attributes that are mass assignable.
+    *
+    * @var array
+    */
+   protected $fillable = [
+      "name",
+      "country",
+      "city",
+      "address",
+      "phone_number",
+      "email",
+      "description",
+      "review_count",
+      "general_score"
+   ];
+
+   /**
     * Providers returned per page.
     *
     */
-    const PER_PAGE = 5;
+   const PER_PAGE = 5;
 
    /**
     * The features that belong to the provider.

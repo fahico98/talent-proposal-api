@@ -29,10 +29,14 @@ Route::group(["prefix" => "user"], function(){
 });
 
 Route::group(["prefix" => "provider"], function(){
-   Route::get("/{page}/{column?}/{value?}", "ProviderController@index");
+
    Route::get("email_exists/{email}", "ProviderController@emailExists");
+   Route::post("create", "ProviderController@create");
+
+   Route::get("{page}/{column?}/{value?}", "ProviderController@index");
 });
 
 Route::group(["prefix" => "feature"], function(){
    Route::get("/", "FeatureController@index");
+   Route::post("create", "FeatureController@create");
 });
