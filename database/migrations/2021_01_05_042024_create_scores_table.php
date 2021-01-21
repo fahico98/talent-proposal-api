@@ -15,8 +15,8 @@ class CreateScoresTable extends Migration{
       Schema::create("scores", function (Blueprint $table) {
          $table->bigIncrements("id");
          $table->float("data", 3, 2)->nullable();
-         $table->bigInteger("feature_id");
-         $table->bigInteger("review_id");
+         $table->bigInteger("feature_id")->unsigned();
+         $table->bigInteger("review_id")->unsigned();
          $table->softDeletes();
          $table->timestamps();
       });

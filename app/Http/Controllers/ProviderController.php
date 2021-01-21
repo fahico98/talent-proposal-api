@@ -4,9 +4,12 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 use App\Models\Provider;
+use App\Models\Feature;
+use App\Models\Review;
 
 class ProviderController extends Controller{
 
@@ -82,6 +85,72 @@ class ProviderController extends Controller{
 
          return response()->json($provider);
       }
+   }
+
+   /**
+    * Return an specific provider.
+    *
+    * @param Provider $provider
+    * @return \Illuminate\Http\Response
+    */
+   public function show(Provider $provider){
+      $provider->load("features.scores", "reviews.user");
+      return response()->json($provider);
+   }
+
+   /**
+    * Perform a provider qualification.
+    *
+    * @return \Illuminate\Http\Response
+    */
+   public function qualify(){
+
+      $provider_id = request()->input("provider_id");
+      $user_id = Auth::user()->id;
+      $features = request()->input("features");
+      $provider = Provider::find($provider_id);
+      $scores_matrix = array();
+      $sum = 0;
+
+      foreach($features as $index => $feature){
+         $sum += $feature["score"];
+         $scores_matrix[$index] = array("feature_id" => $feature["id"], "data" => $feature["score"]);
+      }
+
+      $review = new Review;
+      $review->user_id = $user_id;
+      $review->provider_id = $provider_id;
+      $review->general_score = $sum/count($features);
+      $review->save();
+      $review->fresh();
+
+      $provider->increment("review_count");
+      $this->refreshGeneralScore($provider);
+
+      foreach($scores_matrix as $index => $element){
+         $scores_matrix[$index]["review_id"] = $review["id"];
+      }
+
+      DB::table("scores")->insert($scores_matrix);
+      return response()->json(["status" => 200]);
+   }
+
+   /**
+    * Refresh the general score of one single provider.
+    *
+    * @param  Provider $provider
+    */
+   protected function refreshGeneralScore(Provider $provider){
+
+      $provider->load("reviews");
+      $sum = 0;
+
+      foreach($provider->reviews as $review){
+         $sum += $review->general_score;
+      }
+
+      $provider->general_score = $sum/$provider->review_count;
+      $provider->save();
    }
 
    /**

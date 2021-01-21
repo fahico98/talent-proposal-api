@@ -14,8 +14,8 @@ class CreateFeatureProviderTable extends Migration{
    public function up(){
       Schema::create("feature_provider", function(Blueprint $table){
          $table->bigIncrements("id");
-         $table->bigInteger("feature_id");
-         $table->bigInteger("provider_id");
+         $table->bigInteger("feature_id")->unsigned();
+         $table->bigInteger("provider_id")->unsigned();
          $table->timestamps();
       });
    }

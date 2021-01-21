@@ -19,7 +19,7 @@ class FeatureController extends Controller{
    }
 
    /**
-    * Display a listing of the resource.
+    * Return a list with every single feature.
     *
     * @return \Illuminate\Http\Response
     */
