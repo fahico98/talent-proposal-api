@@ -94,7 +94,12 @@ class ProviderController extends Controller{
     * @return \Illuminate\Http\Response
     */
    public function show(Provider $provider){
-      $provider->load("features.scores", "reviews.user");
+
+      foreach($provider->features as $feature){
+         $feature->general_score = $feature->scores->avg("data");
+      }
+
+      $provider->load("reviews.user");
       return response()->json($provider);
    }
 
@@ -132,7 +137,7 @@ class ProviderController extends Controller{
       }
 
       DB::table("scores")->insert($scores_matrix);
-      return response()->json(["status" => 200]);
+      return response()->json(["review" => $review, "status" => 200]);
    }
 
    /**
