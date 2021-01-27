@@ -21,6 +21,7 @@ Route::group(["prefix" => "auth", "namespace" => "Auth"], function(){
 });
 
 Route::group(["prefix" => "user"], function(){
+   Route::get("show/{user}", "UserController@show");
    Route::get("username_exists/{username}", "UserController@usernameExists");
    Route::get("email_exists/{email}", "UserController@emailExists");
 });
@@ -36,4 +37,8 @@ Route::group(["prefix" => "provider"], function(){
 Route::group(["prefix" => "feature"], function(){
    Route::get("/", "FeatureController@index");
    Route::post("create", "FeatureController@create");
+});
+
+Route::group(["prefix" => "review"], function(){
+   Route::get("user_reviews/{page}/{user}", "ReviewController@userReviews");
 });

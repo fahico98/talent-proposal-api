@@ -17,6 +17,17 @@ class UserController extends Controller{
    }
 
    /**
+    * Return an specific user.
+    *
+    * @param User $user
+    * @return \Illuminate\Http\Response
+    */
+   public function show(User $user){
+      $user->load("profile_picture");
+      return response()->json($user);
+   }
+
+   /**
     * Checks if username exists.
     *
     * @return \Illuminate\Http\JsonResponse

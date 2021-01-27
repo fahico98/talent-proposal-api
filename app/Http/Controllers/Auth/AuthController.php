@@ -41,6 +41,7 @@ class AuthController extends Controller{
     */
    public function me(){
       $user = Auth::user();
+      $user->load("profile_picture");
       return response()->json($user);
    }
 

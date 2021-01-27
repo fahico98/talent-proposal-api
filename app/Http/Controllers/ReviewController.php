@@ -4,7 +4,20 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use App\Models\Review;
+use App\Models\User;
+
 class ReviewController extends Controller{
+
+   /**
+    * Return all the authenticated user reviews.
+    *
+    * @return \Illuminate\Http\Response
+    */
+   public function userReviews($page, User $user){
+      $reviews = Review::userReviews($page, $user->id)->get();
+      return response()->json($reviews);
+   }
 
     /**
      * Display a listing of the resource.

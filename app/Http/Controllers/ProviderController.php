@@ -110,8 +110,10 @@ class ProviderController extends Controller{
     */
    public function qualify(){
 
+      $user = Auth::user();
+
       $provider_id = request()->input("provider_id");
-      $user_id = Auth::user()->id;
+      $user_id = $user->id;
       $features = request()->input("features");
       $provider = Provider::find($provider_id);
       $scores_matrix = array();
@@ -129,6 +131,7 @@ class ProviderController extends Controller{
       $review->save();
       $review->fresh();
 
+      $user->increment("review_count");
       $provider->increment("review_count");
       $this->refreshGeneralScore($provider);
 
