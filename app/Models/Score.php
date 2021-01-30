@@ -19,4 +19,11 @@ class Score extends Model{
    public function review(){
       return $this->belongsTo(Review::class);
    }
+
+   /**
+    * The provider that belong to the score.
+    */
+   public function provider(){
+      return $this->belongsTo(Provider::class);
+   }
 }

@@ -44,6 +44,13 @@ class Provider extends Model{
    }
 
    /**
+    * Get the scores for the provider.
+    */
+   public function scores(){
+      return $this->hasMany(Score::class);
+   }
+
+   /**
     * Scope a query to return a providers set filtered by certain column with certain value.
     *
     * @param  \Illuminate\Database\Eloquent\Builder  $query

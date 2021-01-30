@@ -29,6 +29,7 @@ class DefineForeignKeys extends Migration{
       Schema::table("scores", function(Blueprint $table){
          $table->foreign("feature_id")->references("id")->on("features")->onDelete("cascade");
          $table->foreign("review_id")->references("id")->on("reviews")->onDelete("cascade");
+         $table->foreign("provider_id")->references("id")->on("providers")->onDelete("cascade");
       });
 
       Schema::table("reviews", function(Blueprint $table){
@@ -60,6 +61,7 @@ class DefineForeignKeys extends Migration{
       Schema::table("scores", function(Blueprint $table){
          $table->dropForeign("scores_feature_id_foreign");
          $table->dropForeign("scores_review_id_foreign");
+         //$table->dropForeign("scores_provider_id_foreign");
       });
 
       Schema::table("reviews", function(Blueprint $table){

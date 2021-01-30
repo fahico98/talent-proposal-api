@@ -41,4 +41,5 @@ Route::group(["prefix" => "feature"], function(){
 
 Route::group(["prefix" => "review"], function(){
    Route::get("user_reviews/{page}/{user}", "ReviewController@userReviews");
+   Route::get("provider_reviews/{page}/{provider}", "ReviewController@providerReviews");
 });

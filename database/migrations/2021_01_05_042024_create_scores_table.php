@@ -17,6 +17,7 @@ class CreateScoresTable extends Migration{
          $table->float("data", 3, 2)->nullable();
          $table->bigInteger("feature_id")->unsigned();
          $table->bigInteger("review_id")->unsigned();
+         $table->bigInteger("provider_id")->unsigned();
          $table->softDeletes();
          $table->timestamps();
       });

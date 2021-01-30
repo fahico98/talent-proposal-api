@@ -20,7 +20,7 @@ class UserSeeder extends Seeder{
             "gender" => "masculino",
             "email" => "fahico98@gmail.com",
             "password" => Hash::make("mecatronica1992"),
-            "role_id" => 3,
+            "role_id" => 2,
             "created_at" => Carbon::now(),
             "updated_at" => Carbon::now()
          ],

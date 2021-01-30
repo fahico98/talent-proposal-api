@@ -71,16 +71,15 @@ class ProviderController extends Controller{
       $providerData = request()->input("form");
       $validated = $this->validator($providerData);
 
-      if($validated->fails()) {
+      if($validated->fails()){
          return response()->json(["errors" => $validated->errors(), "status" => 422]);
+
       }else{
 
          $provider = Provider::create($providerData);
 
          foreach($selectedFeatures as $feature){
-            DB::table("feature_provider")->insert(
-               ["feature_id" => $feature["id"], "provider_id" => $provider["id"]]
-            );
+            DB::table("feature_provider")->insert(["feature_id" => $feature["id"], "provider_id" => $provider["id"]]);
          }
 
          return response()->json($provider);
@@ -95,11 +94,19 @@ class ProviderController extends Controller{
     */
    public function show(Provider $provider){
 
+      $provider_id = $provider->id;
+
       foreach($provider->features as $feature){
+         $feature->load(["scores" => function($query) use ($provider_id){
+            $query->where("provider_id", $provider_id);
+         }]);
          $feature->general_score = $feature->scores->avg("data");
       }
 
-      $provider->load("reviews.user");
+      $provider->reviewed = Review::where("provider_id", $provider->id)
+         ->where("user_id", Auth::user()->id)
+         ->exists();
+
       return response()->json($provider);
    }
 
@@ -133,14 +140,23 @@ class ProviderController extends Controller{
 
       $user->increment("review_count");
       $provider->increment("review_count");
-      $this->refreshGeneralScore($provider);
+      $provider = $this->refreshGeneralScore($provider);
 
       foreach($scores_matrix as $index => $element){
          $scores_matrix[$index]["review_id"] = $review["id"];
+         $scores_matrix[$index]["provider_id"] = $provider_id;
       }
 
       DB::table("scores")->insert($scores_matrix);
-      return response()->json(["review" => $review, "status" => 200]);
+
+      foreach($provider->features as $feature){
+         $feature->load(["scores" => function($query) use ($provider_id){
+            $query->where("provider_id", $provider_id);
+         }]);
+         $feature->general_score = $feature->scores->avg("data");
+      }
+
+      return response()->json(["provider" => $provider, "status" => 200]);
    }
 
    /**
@@ -159,6 +175,10 @@ class ProviderController extends Controller{
 
       $provider->general_score = $sum/$provider->review_count;
       $provider->save();
+      $provider->fresh();
+      unset($provider->reviews);
+      $provider->reviewed = true;
+      return $provider;
    }
 
    /**
