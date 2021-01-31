@@ -103,10 +103,6 @@ class ProviderController extends Controller{
          $feature->general_score = $feature->scores->avg("data");
       }
 
-      $provider->reviewed = Review::where("provider_id", $provider->id)
-         ->where("user_id", Auth::user()->id)
-         ->exists();
-
       return response()->json($provider);
    }
 
@@ -177,7 +173,6 @@ class ProviderController extends Controller{
       $provider->save();
       $provider->fresh();
       unset($provider->reviews);
-      $provider->reviewed = true;
       return $provider;
    }
 

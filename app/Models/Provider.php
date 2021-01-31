@@ -2,9 +2,16 @@
 
 namespace App\Models;
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Model;
 
 class Provider extends Model{
+
+   /**
+    * Providers returned per page.
+    *
+    */
+   const PER_PAGE = 5;
 
    /**
     * The attributes that are mass assignable.
@@ -24,10 +31,11 @@ class Provider extends Model{
    ];
 
    /**
-    * Providers returned per page.
+    * The accessors to append to the model's array form.
     *
+    * @var array
     */
-   const PER_PAGE = 5;
+   protected $appends = ["reviewed"];
 
    /**
     * The features that belong to the provider.
@@ -48,6 +56,17 @@ class Provider extends Model{
     */
    public function scores(){
       return $this->hasMany(Score::class);
+   }
+
+   /**
+    * Get the reviewd state from the authenticated user.
+    *
+    * @return bool
+    */
+   public function getReviewedAttribute(){
+      return Review::where("provider_id", $this->attributes["id"])
+         ->where("user_id", Auth::user()->id)
+         ->exists();
    }
 
    /**
